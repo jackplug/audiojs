@@ -1,4 +1,7 @@
 // A cross-browser javascript shim for html5 audio
+
+// UPDATE: line 298-304 - add keyboard accessibility (for WAI-ARIA)
+
 (function(audiojs, audiojsInstance, container) {
   // Use the path to the audio.js file to create relative paths to the swf and player graphics
   // Remember that some systems (e.g. ruby on rails) append strings like '?1301478336' to asset paths
@@ -293,6 +296,14 @@
 
       container[audiojs].events.addListener(playPause, 'click', function(e) {
         audio.playPause.apply(audio);
+      });
+
+      // add keyboard accessibility
+      container[audiojs].events.addListener(playPause, 'keydown', function(e) {
+        var evt = e || window.event;
+        if (evt.keyCode == 13) {
+          audio.playPause.apply(audio);
+        }
       });
 
       container[audiojs].events.addListener(scrubber, 'click', function(e) {
